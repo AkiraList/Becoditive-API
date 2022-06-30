@@ -39,12 +39,12 @@ exports.newAPIKEY = async (req, res, next) => {
             },
         });
         if (process.env.SEND_EMAIL == 'true') {
-            require("fs").readFile('views/email.ejs', async function (err, data) {
+          require("fs").readFile('views/email.ejs', async function (err, data) {
                 const mailOptions = {
                     from: process.env.EMAIL_ADDRESS,
                     to: email,
                     subject: "Your API Key for: " + process.env.EMAIL_ADDRESS.split("@")[1], // Subject line
-                    html: (data.toString().replace(/(?:ThisIsAHostNamePlaceHolder)/g, process.env.EMAIL_ADDRESS.split("@")[1]).replace("ThisIsAnAPIkeyPlaceHolder", key).replace(/(?ThisIsAnEmailPlaceHolder)/g, email)),
+                    html: (data.toString().replace(/(?:ThisIsAHostNamePlaceHolder)/g, process.env.EMAIL_ADDRESS.split("@")[1]).replace("ThisIsAnAPIkeyPlaceHolder", key).replace(/(?:ThisIsAnEmailPlaceHolder)/g, email)),
                 };
                 await transporter.sendMail(mailOptions, function (err, info) {
                     if (err) {

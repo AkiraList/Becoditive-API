@@ -7,6 +7,8 @@ const bodyParser = require('body-parser')
 const path = require('path')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
+var session = require('express-session');
+app.use(session({secret: "Shh, its a secret!"}));
 
 // Rate Limiter
 const limiter = rateLimit({
@@ -26,28 +28,32 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 
 app.use('/assets', express.static('assets'))
-
 // Routers
 const animalRouter = require('./Src/Router/Animals')
 const otherRouter = require('./Src/Router/Others')
+const nsfwRouter = require('./Src/Router/Nsfw')
 const textRouter = require('./Src/Router/Text')
 const memeRouter = require('./Src/Router/Meme')
 const viewRouter = require('./Src/Router/View')
 const imageRouter = require('./Src/Router/Images')
 const gameRouter = require('./Src/Router/Games')
 const adminRouter = require('./Src/Router/admin')
+const accountRouter = require('./Src/Router/account')
 const urlRouter = require('./Src/Router/urlshort')
 const fakeRouter = require('./Src/Router/fake')
 
 app.use('/', viewRouter)
 app.use('/v2/animals', animalRouter)
+app.use('/@me', accountRouter)
 app.use('/v2/others', otherRouter)
 app.use('/v2/text', textRouter)
+app.use('/v2/nsfw', nsfwRouter)
+
 app.use('/v2/meme', memeRouter)
 app.use('/v2/images', imageRouter)
 app.use('/v2/games', gameRouter)
 app.use('/v2/admin', adminRouter)
-app.use('/v2/shorturl', urlRouter)
+app.use('/v2/short', urlRouter)
 app.use('/v2/fake', fakeRouter)
 
 // v1 not supported error

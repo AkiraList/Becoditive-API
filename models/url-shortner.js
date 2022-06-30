@@ -1,43 +1,24 @@
-const mongoose = require('mongoose')
-
-const urlSchema = mongoose.Schema({
-  title: {
-    type: String
-  },
-  url: {
-    type: String,
-    required: true
-  },
-  shortId: {
-    type: String,
-    required: true
-  },
-  clicks: {
-    type: Number,
-    default: 0
-  },
-  description: {
-    type: String
-  },
-  logo: {
-    type: String
-  },
-  owner: {
-    type: String,
-    required: true
-  },
-  createdAt: {
-    type: Date,
-    default: new Date()
-  },
-  domain: {
-    type: String,
-    default: 'dscl.xyz'
-  }
-},
-{
-  versionKey: false
-}
-)
-
+const mongoose = require('mongoose');
+const urlSchema = new mongoose.Schema({
+    donor: Boolean,
+    date: {
+        type: String,
+        default: Date.now
+    },
+    owner: {
+        type: String,
+        default: ""
+    },
+    clicks: {
+        type: Number,
+        default: 0
+    },
+    createdAt: {
+        type: Date,
+        default: new Date()
+    },
+    urlCode: String,
+    longUrl: String,
+    shortUrl: String,
+});
 module.exports = mongoose.model('short urls', urlSchema)

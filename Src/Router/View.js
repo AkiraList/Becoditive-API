@@ -8,6 +8,10 @@ route
   .get(viewController.home)
 
 route
+  .route('/short')
+  .get(viewController.short)
+
+route
   .route('/tos')
   .get(viewController.tos)
 

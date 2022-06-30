@@ -15,6 +15,10 @@ const apiSchema = mongoose.Schema({
     type: Number,
     default: 0
   },
+  donor: {
+    type: Boolean,
+    default: false
+  },
   type: {
     type: String,
     default: 'user'

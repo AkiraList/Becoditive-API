@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/assets/shrt/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/shrt/main.css">
+    <link rel="stylesheet" href="/assets/shrt/now-ui-kit.css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,600,700,800,900&display=swap" rel="stylesheet">
+    <title>URL Shortener</title>
+</head>
+<body>
+    <div class="features">
+    <div class="title"> URL Shortener! </div>
+    <div class="subtitle"> Shorten your url or look at existing urls you shortened! </div>
+    <form action="<%- process.env.baseUrl %>/v2/short/create" method="POST">
+        <div>
+          <label for="longUrl">URLCode or Link here:</label>
+          <input name="longUrl" id="longUrl" value="" required>
+        </div>
+        <div>
+          <label for="userId">UserID:</label>
+          <input name="userId" id="userId" value="<%= (user[0].email) %>" readonly="true">
+        </div>
+       <% if (user){ %>
+            <div>
+                <label for="customCode">Custom Url Code:</label>
+                <input name="customCode" id="customCode" value="" disabled="true">
+            </div>
+            <% } %>
+        <div>
+          <button>Shorten!</button>
+        </div>
+      </form>
+      <div class="features">
+      <% urls?.forEach(s =>{ %>
+      
+        <table>
+            <tr>
+              <th><%- s.urlCode %></th>
+            </tr>
+            <tr>
+              <td><b>Short: </b><u><%- s.shortUrl %></u></td>
+              <td></td>
+            </tr>
+            <tr>
+                <td><b>Long: </b> <u><%- s.longUrl %></u></td>
+            </tr>
+          </table>          
+      <% }) %>
+    </div>     
+</div>

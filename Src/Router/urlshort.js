@@ -6,8 +6,7 @@ const urlController = require('../Controllers/urlshortner')
 
 route
   .route('/create')
-  .post(auth, urlController.create)
-
+  .post(urlController.create)
 route
   .route('/update')
   .patch(auth, urlController.update)
@@ -15,5 +14,9 @@ route
 route
   .route('/info')
   .get(auth, urlController.info)
+
+route
+  .route("/r")
+  .get(urlController.codes)
 
 module.exports = route
