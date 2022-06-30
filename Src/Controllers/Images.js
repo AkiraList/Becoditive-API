@@ -4,7 +4,7 @@ const jimp = require('jimp')
 
 exports.delete = async (req, res, next) => {
   try {
-    const bg = await canvas.loadImage('https://cdn.becoditive.xyz/assets/api/delete.png')
+    const bg = await canvas.loadImage('assets/images/funny/delete.png')
 
     if (!req.query.image) {
       res.status(400).json({
@@ -108,7 +108,7 @@ exports.ad = async (req, res, next) => {
 
 exports.hitler = async (req, res, next) => {
   try {
-    const bg = await canvas.loadImage('https://cdn.becoditive.xyz/assets/api/hitler.png')
+    const bg = await canvas.loadImage('assets/images/funny/hitler.jpg')
 
     if (!req.query.image) {
       res.status(400).json({
@@ -157,7 +157,7 @@ exports.hitler = async (req, res, next) => {
 
 exports.jail = async (req, res, next) => {
   try {
-    const bg = await canvas.loadImage('https://cdn.becoditive.xyz/assets/api/jail.png')
+    const bg = await canvas.loadImage('assets/images/funny/jail.png')
 
     if (!req.query.image) {
       res.status(400).json({
@@ -169,7 +169,7 @@ exports.jail = async (req, res, next) => {
     }
 
     if (req.query.image.endsWith('.png') === true) {
-      const logo = await canvas.loadImage(req.query.image)
+      const logo = await canvas.loadImage(req.protocol+"://"+req.hostname+"/v2/images/gray?image="+req.query.image)
 
       const image = new Canvas(500, 500)
         .printImage(logo, 0, 0, 500, 500)
@@ -206,7 +206,7 @@ exports.jail = async (req, res, next) => {
 
 exports.gay = async (req, res, next) => {
   try {
-    const bg = await canvas.loadImage('https://cdn.becoditive.xyz/assets/api/gay.png')
+    const bg = await canvas.loadImage('assets/images/pride/gay.png')
 
     if (!req.query.image) {
       res.status(400).json({
@@ -400,7 +400,7 @@ exports.rip = async (req, res, next) => {
   }
 }
 
-exports.speia = async (req, res, next) => {
+exports.sepia = async (req, res, next) => {
   try {
     if (!req.query.image) {
       res.status(400).json({
@@ -427,6 +427,57 @@ exports.speia = async (req, res, next) => {
       let image = await jimp.read(req.query.image)
 
       image = image.sepia()
+
+      let raw
+      image.getBuffer('image/png', (err, buffer) => {
+        raw = buffer
+      })
+
+      await res.set({ 'Content-Type': 'image/jpg' })
+      res.send(raw)
+    } else {
+      res.status(400).json({
+        error: true,
+        code: 400,
+        message: 'only jpg or png type of images are allowed.'
+      })
+      return next()
+    }
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      error: error
+    })
+  }
+}
+
+exports.gray = async (req, res, next) => {
+  try {
+    if (!req.query.image) {
+      res.status(400).json({
+        error: true,
+        code: 400,
+        message: 'no image was provide.'
+      })
+      return next()
+    }
+
+    if (req.query.image.endsWith('.png') === true) {
+      let image = await jimp.read(req.query.image)
+
+      image = image.greyscale()
+
+      let raw
+      image.getBuffer('image/png', (err, buffer) => {
+        raw = buffer
+      })
+
+      await res.set({ 'Content-Type': 'image/png' })
+      res.send(raw)
+    } else if (req.query.image.endsWith('.jpg') === true) {
+      let image = await jimp.read(req.query.image)
+
+      image = image.grayscale()
 
       let raw
       image.getBuffer('image/png', (err, buffer) => {
@@ -565,7 +616,7 @@ exports.jokeoverhead = async (req, res, next) => {
 
 exports.captcha = async (req, res, next) => {
   try {
-    const bg = await canvas.loadImage('https://cdn.becoditive.xyz/assets/api/captcha.png')
+    const bg = await canvas.loadImage('assets/images/funny/captcha.jpg')
 
     if (!req.query.image) {
       res.status(400).json({

@@ -37,7 +37,11 @@ route
 
 route
   .route('/sepia')
-  .get(imageController.speia)
+  .get(imageController.sepia)
+
+route
+  .route('/gray')
+  .get(imageController.gray)
 
 route
   .route('/firsttime')
